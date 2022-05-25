@@ -1,0 +1,14 @@
+<template>
+  <h3>Fav: {{ counter }}</h3>
+  <p>Favorite</p>
+</template>
+
+<script>
+export default {
+  computed: {
+    counter() {
+      return this.$store.getters['numbers/normalizedCounter'];
+    },
+  },
+};
+</script>

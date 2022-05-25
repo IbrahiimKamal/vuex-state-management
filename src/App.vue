@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <base-container v-if="isAuth" title="Vuex">
+    <the-counter></the-counter>
+    <favorite-value></favorite-value>
+    <button @click="addOne">Add 10</button>
+    <change-counter />
+  </base-container>
+  <base-container title="auth">
+    <user-auth></user-auth>
+  </base-container>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BaseContainer from './components/BaseContainer.vue';
+import ChangeCounter from './components/ChangeCounter.vue';
+import FavoriteValue from './components/FavoriteValue.vue';
+import TheCounter from './components/TheCounter.vue';
+import UserAuth from './components/UserAuth.vue';
 
 export default {
-  name: 'App',
+  methods: {
+    addOne() {
+      // this.$store.commit('increase', { value: 10 });
+      this.$store.dispatch({
+        type: 'numbers/increment',
+        value: 10,
+      });
+    },
+  },
+
+  computed: {
+    counter() {
+      return this.$store.state.counter;
+    },
+    isAuth() {
+      return this.$store.getters.userIsAuth;
+    },
+  },
+
   components: {
-    HelloWorld
-  }
-}
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+    FavoriteValue,
+    UserAuth,
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
 }
 </style>
